@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 import datetime as dt
+import os
 
+deltas = dict()
+starts = dict()
 class SortData(ABC):
 
     @classmethod
@@ -10,6 +13,8 @@ class SortData(ABC):
             rec = func(*args, **kwargs)
             delta = dt.datetime.now() - start
             print('Function finished in {} ms'.format(delta.microseconds))
+            deltas[func.__name__] = int(delta.microseconds)
+            starts[func.__name__] = start
             return rec
         return inner
 
@@ -30,10 +35,9 @@ class SortData(ABC):
             print("List have not int elements")
             return False
 
-
+@SortData.timedec
 class BubleSort(SortData):
 
-    @SortData.timedec
     def sort(self, list):
         if super().checkint(list):
             for i in range(len(list) - 1):
@@ -43,9 +47,8 @@ class BubleSort(SortData):
         return list
 
 
+@SortData.timedec
 class SelectionSort(SortData):
-
-    @SortData.timedec
     def sort(self, list):
         if super().checkint(list):
                 for i in range(len(list)):
@@ -56,10 +59,8 @@ class SelectionSort(SortData):
                     list[i], list[lowest_index] = list[lowest_index], list[i]
         return list
 
-
+@SortData.timedec
 class InsertionSort(SortData):
-
-    @SortData.timedec
     def sort(self, list):
         if super().checkint(list):
             for i in range(1, len(list)):
@@ -71,10 +72,9 @@ class InsertionSort(SortData):
                 list[j + 1] = item_ins
         return list
 
+
+@SortData.timedec
 class MergeSort(SortData):
-    '''I spent a lot of time making a decorator for a recursive function.
-    I failed.
-    I will deal with this later'''
     def merge_sort(self,left_list, right_list):
         list = []
         left_list_index = right_list_index = 0
@@ -93,13 +93,10 @@ class MergeSort(SortData):
             elif right_list_index == right_list_length:
                 list.append(left_list[left_list_index])
                 left_list_index += 1
-        self.end = dt.datetime.now()
         return list
 
     def sort(self, list):
-
         if super().checkint(list):
-            self.start = dt.datetime.now()
             if len(list) <= 1:
                 return list
             mid = len(list) // 2
@@ -107,7 +104,3 @@ class MergeSort(SortData):
             right_list = self.sort(list[mid:])
         return self.merge_sort(left_list, right_list)
 
-    def time_merge(self):
-        delta = self.end - self.start
-        print('Function finished in {} ms'.format(int(delta.microseconds)))
-        return delta
