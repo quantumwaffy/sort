@@ -52,7 +52,7 @@ def index(request):
             model.save()
         os.remove(file)
         sortedlist = modelSort.objects.latest('timestart')
-        kindsorted = f'List sorted by {sortedlist.kind}'
+        kindsorted = f'List sorted by {sortedlist.kind}sort'
         exectime = f'Sorting took {sortedlist.exectime} ms'
     context = {
         'sortedlist':sortedlist,
