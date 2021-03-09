@@ -50,6 +50,7 @@ def index(request):
             model.exectime = deltas['MergeSort']
             model.timestart = starts['MergeSort']
             model.save()
+        os.remove(file)
         sortedlist = modelSort.objects.latest('timestart')
         kindsorted = f'List sorted by {sortedlist.kind}'
         exectime = f'Sorting took {sortedlist.exectime} ms'
