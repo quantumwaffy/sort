@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorting datalist from file</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600&display=swap" rel="stylesheet">
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Shippori Mincho B1', serif;
+        }
+        *::selection{
+            background-color: #999999;
+            color: #222222;
+        }
+        body{
+            background-color: #262626;
+            color: #999999;
+            margin: 20px;
+        }
+        h1, div, button{
+            padding: 5px;
+        }
+        div#example{
+            font: italic lighter 13px 'Shippori Mincho B1', serif;
+            padding: 0;
+        }
+        input{
+            padding: 5px;
+        }
+        input[type=radio]{
+            visibility: hidden;
+            position: absolute;
+        }
+        input[type=radio]+label:before{
+            height:12px;
+            width:12px;
+            margin-right: 2px;
+            border:1px solid #737373;
+            border-radius: 50%;
+            content: " ";
+            display:inline-block;
+            background-color: #737373;
+        }
+
+        input[type=radio]:checked + label:before{
+            background-color: white;
+        }
+        button{
+            background-color: #737373;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        input:hover, label:hover, button:hover{
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Algorithms of sorting</h1>
+<div id="upload">Upload .txt file with numbers to sorting</div>
+<div id="example">Format numbers in file should be like in example: 1,0,5,2</div>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="document" id="doc"><br>
+        Choose <b> the type </b> of sorting:<br>
+    <div id="choose">
+        <input type="radio" name="sorting" required value="buble" id="s1"><label for="s1">Buble Sort</label><br>
+        <input type="radio" name="sorting" value="select" id="s2"><label for="s2">Selection Sort</label><br>
+        <input type="radio" name="sorting" value="insert" id="s3"><label for="s3">Insertion Sort</label><br>
+        <input type="radio" name="sorting" value="merge" id="s4"><label for="s4">Merge Sort</label><br>
+    </div>
+        <button type="submit">Sort numbers in file</button>
+    <br>
+    <div>{{ kindsorted }}</div>
+    <div>{{ sortedlist.aftersort }}</div>
+    <div>{{ exectime }}</div>
+</form>
+</body>
+</html>
+
