@@ -66,7 +66,7 @@
 <div id="example">Format numbers in file should be like in example: 1,0,5,2</div>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" name="document" id="doc"><br>
+    <input required type="file" name="document" id="doc"><br>
         Choose <b> the type </b> of sorting:<br>
     <div id="choose">
         <input type="radio" name="sorting" required value="buble" id="s1"><label for="s1">Buble Sort</label><br>
